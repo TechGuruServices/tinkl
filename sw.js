@@ -1,7 +1,7 @@
 // TINKL. service worker
 // Handles: offline app-shell caching + notification tap routing back to the app.
 
-const VERSION = 'tinkl-v3';
+const VERSION = 'tinkl-v4';
 const STATIC_CACHE = `${VERSION}-static`;
 const RUNTIME_CACHE = `${VERSION}-runtime`;
 

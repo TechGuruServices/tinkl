@@ -112,6 +112,45 @@
         linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
     }
 
+    /* Nebula — deep-space violet/magenta with a twinkling star field */
+    body[data-theme="nebula"] {
+      --bg-0: #0a0618;
+      --brand: #a855f7;
+      --brand-2: #ec4899;
+      --brand-3: #818cf8;
+      --grad-brand: linear-gradient(135deg, #a855f7, #ec4899 55%, #6366f1);
+      --grad-btn: linear-gradient(135deg, #3b1a5c, #1e1240 55%, #4c1d95);
+      --grad-hero: radial-gradient(120% 120% at 0% 0%, rgba(168, 85, 247, 0.30), transparent 55%),
+        radial-gradient(120% 120% at 100% 100%, rgba(236, 72, 153, 0.22), transparent 55%),
+        linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+    }
+
+    /* Blossom — rose-gold evening shimmer */
+    body[data-theme="blossom"] {
+      --bg-0: #1a0e14;
+      --brand: #fb7185;
+      --brand-2: #facc15;
+      --brand-3: #fda4af;
+      --grad-brand: linear-gradient(135deg, #f43f5e, #fbbf24 55%, #fda4af);
+      --grad-btn: linear-gradient(135deg, #4c1d2e, #2a1219 55%, #5c2a1d);
+      --grad-hero: radial-gradient(120% 120% at 0% 0%, rgba(244, 63, 94, 0.28), transparent 55%),
+        radial-gradient(120% 120% at 100% 100%, rgba(250, 204, 21, 0.20), transparent 55%),
+        linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+    }
+
+    /* Abyss — bioluminescent deep-ocean teal */
+    body[data-theme="abyss"] {
+      --bg-0: #020c14;
+      --brand: #22d3ee;
+      --brand-2: #0ea5e9;
+      --brand-3: #2dd4bf;
+      --grad-brand: linear-gradient(135deg, #06b6d4, #0ea5e9 55%, #164e63);
+      --grad-btn: linear-gradient(135deg, #063a4a, #041a24 55%, #0c4a5e);
+      --grad-hero: radial-gradient(120% 120% at 0% 0%, rgba(6, 182, 212, 0.28), transparent 55%),
+        radial-gradient(120% 120% at 100% 100%, rgba(59, 130, 246, 0.22), transparent 55%),
+        linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+    }
+
     * {
       box-sizing: border-box;
       -webkit-tap-highlight-color: transparent;
@@ -197,6 +236,144 @@
         var(--bg-0);
       background-size: 220% 220%, 220% 220%, 220% 220%, auto;
       animation: themeDrift 40s ease-in-out infinite;
+    }
+
+    /* ---------- Nebula: drift + twinkling star field ---------- */
+    body[data-theme="nebula"]::before {
+      background:
+        radial-gradient(55% 55% at 15% 0%, rgba(168, 85, 247, 0.34), transparent 60%),
+        radial-gradient(55% 55% at 100% 20%, rgba(236, 72, 153, 0.26), transparent 60%),
+        radial-gradient(55% 55% at 50% 100%, rgba(99, 102, 241, 0.28), transparent 60%),
+        var(--bg-0);
+      background-size: 220% 220%, 220% 220%, 220% 220%, auto;
+      animation: themeDrift 38s ease-in-out infinite;
+    }
+
+    body[data-theme="nebula"]::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image:
+        radial-gradient(1.6px 1.6px at 20% 30%, rgba(255, 255, 255, 0.9), transparent),
+        radial-gradient(1.6px 1.6px at 70% 62%, rgba(255, 255, 255, 0.8), transparent),
+        radial-gradient(1.2px 1.2px at 42% 80%, rgba(255, 255, 255, 0.7), transparent),
+        radial-gradient(1.6px 1.6px at 90% 16%, rgba(255, 255, 255, 0.85), transparent),
+        radial-gradient(1.2px 1.2px at 11% 66%, rgba(255, 255, 255, 0.6), transparent),
+        radial-gradient(1.6px 1.6px at 56% 12%, rgba(255, 255, 255, 0.75), transparent),
+        radial-gradient(1.2px 1.2px at 84% 86%, rgba(255, 255, 255, 0.65), transparent),
+        radial-gradient(1.6px 1.6px at 30% 50%, rgba(255, 255, 255, 0.7), transparent);
+      background-repeat: no-repeat;
+      animation: starTwinkle 4s ease-in-out infinite;
+    }
+
+    /* ---------- Blossom: drift + gliding rose-gold shimmer ---------- */
+    body[data-theme="blossom"]::before {
+      background:
+        radial-gradient(55% 55% at 15% 0%, rgba(244, 63, 94, 0.30), transparent 60%),
+        radial-gradient(55% 55% at 100% 20%, rgba(251, 113, 133, 0.24), transparent 60%),
+        radial-gradient(55% 55% at 50% 100%, rgba(250, 204, 21, 0.18), transparent 60%),
+        var(--bg-0);
+      background-size: 220% 220%, 220% 220%, 220% 220%, auto;
+      animation: themeDrift 34s ease-in-out infinite;
+    }
+
+    body[data-theme="blossom"]::after {
+      content: '';
+      position: fixed;
+      inset: -20%;
+      z-index: -1;
+      pointer-events: none;
+      background: linear-gradient(115deg,
+          transparent 30%,
+          rgba(250, 204, 21, 0.10) 45%,
+          rgba(255, 255, 255, 0.16) 50%,
+          rgba(250, 204, 21, 0.10) 55%,
+          transparent 70%);
+      background-size: 300% 300%;
+      animation: shimmerSweep 7s ease-in-out infinite;
+    }
+
+    /* ---------- Abyss: drift + pulsing bioluminescent glow ---------- */
+    body[data-theme="abyss"]::before {
+      background:
+        radial-gradient(55% 55% at 15% 0%, rgba(6, 182, 212, 0.30), transparent 60%),
+        radial-gradient(55% 55% at 100% 20%, rgba(14, 165, 233, 0.26), transparent 60%),
+        radial-gradient(55% 55% at 50% 100%, rgba(59, 130, 246, 0.22), transparent 60%),
+        var(--bg-0);
+      background-size: 220% 220%, 220% 220%, 220% 220%, auto;
+      animation: themeDrift 44s ease-in-out infinite;
+    }
+
+    body[data-theme="abyss"]::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image:
+        radial-gradient(2px 2px at 25% 40%, rgba(45, 212, 191, 0.9), transparent),
+        radial-gradient(2px 2px at 65% 70%, rgba(34, 211, 238, 0.8), transparent),
+        radial-gradient(1.6px 1.6px at 45% 20%, rgba(103, 232, 249, 0.75), transparent),
+        radial-gradient(2px 2px at 85% 50%, rgba(45, 212, 191, 0.7), transparent),
+        radial-gradient(1.6px 1.6px at 15% 80%, rgba(34, 211, 238, 0.65), transparent),
+        radial-gradient(2px 2px at 55% 90%, rgba(103, 232, 249, 0.7), transparent);
+      background-repeat: no-repeat;
+      animation: glowPulse 5s ease-in-out infinite;
+    }
+
+    @keyframes starTwinkle {
+
+      0%,
+      100% {
+        opacity: 0.4;
+      }
+
+      50% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes shimmerSweep {
+      0% {
+        background-position: -60% -60%;
+      }
+
+      50% {
+        background-position: 160% 160%;
+      }
+
+      100% {
+        background-position: -60% -60%;
+      }
+    }
+
+    @keyframes glowPulse {
+
+      0%,
+      100% {
+        opacity: 0.35;
+        transform: scale(1);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.15);
+      }
+    }
+
+    /* Respect OS-level reduced-motion for every theme's ambient animation,
+       including the drift/twinkle/shimmer/glow layers added above — a
+       moving full-viewport background is exactly the kind of motion this
+       setting exists to suppress. */
+    @media (prefers-reduced-motion: reduce) {
+
+      body::before,
+      body[data-theme]::before,
+      body[data-theme]::after {
+        animation: none !important;
+      }
     }
 
     button,
@@ -1912,6 +2089,33 @@
       flex-wrap: wrap;
     }
 
+    /* Cloud Sync action row — three buttons with fairly long labels
+       ("Back Up to Cloud", "Restore from Cloud", "Delete Cloud Backup").
+       A plain flex row with no wrap squeezed all three onto one line on
+       narrow screens, shrinking each button until the icon/text overlapped.
+       This wraps on tablet widths and stacks to full-width, single-column
+       buttons on phones — the standard mobile pattern for a 3-action group. */
+    .sync-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .sync-actions .btn {
+      flex: 1 1 auto;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 640px) {
+      .sync-actions {
+        flex-direction: column;
+      }
+
+      .sync-actions .btn {
+        width: 100%;
+      }
+    }
+
     .cursor-ptr {
       cursor: pointer;
     }
@@ -2266,6 +2470,18 @@
               <div class="theme-swatch" style="background:linear-gradient(135deg,#6366f1,#3b82f6,#8b5cf6)"></div>
               <div class="theme-card-label">Midnight</div>
             </div>
+            <div class="theme-card" data-set-theme="nebula">
+              <div class="theme-swatch" style="background:linear-gradient(135deg,#a855f7,#ec4899,#6366f1)"></div>
+              <div class="theme-card-label">Nebula</div>
+            </div>
+            <div class="theme-card" data-set-theme="blossom">
+              <div class="theme-swatch" style="background:linear-gradient(135deg,#f43f5e,#fbbf24,#fda4af)"></div>
+              <div class="theme-card-label">Blossom</div>
+            </div>
+            <div class="theme-card" data-set-theme="abyss">
+              <div class="theme-swatch" style="background:linear-gradient(135deg,#06b6d4,#0ea5e9,#164e63)"></div>
+              <div class="theme-card-label">Abyss</div>
+            </div>
           </div>
         </div>
         <div class="card mb-4">
@@ -2342,7 +2558,7 @@
             Sync your local data to the cloud so you can access it on another device.
             <br><i>Note: Uses your unique device ID. No login required.</i>
           </div>
-          <div class="row" style="gap:8px">
+          <div class="sync-actions">
             <button class="btn btn-secondary" id="syncPushBtn">📤 Back Up to Cloud</button>
             <button class="btn btn-secondary" id="syncPullBtn">📥 Restore from Cloud</button>
             <button class="btn btn-danger" id="syncDelBtn">🗑 Delete Cloud Backup</button>
@@ -2414,6 +2630,9 @@
       sparkle: '<path d="M12 3 13.4 9.6 20 11 13.4 12.4 12 19 10.6 12.4 4 11 10.6 9.6Z"/>',
       sunset: '<circle cx="12" cy="10" r="3.5"/><path d="M4 17h16M2.5 20.5h19M6 14l-1.8-1.8M18 14l1.8-1.8M12 4.5V2.5"/>',
       stars: '<circle cx="7" cy="7" r=".9" fill="currentColor" stroke="none"/><circle cx="17" cy="10" r=".9" fill="currentColor" stroke="none"/><circle cx="12" cy="17" r=".9" fill="currentColor" stroke="none"/><path d="M12 3 12.9 5.6 15.5 6.5 12.9 7.4 12 10 11.1 7.4 8.5 6.5 11.1 5.6Z"/>',
+      comet: '<circle cx="8" cy="16" r="2.2"/><path d="M10.5 13.5 19 5M14 5h5v5"/>',
+      gem: '<path d="M5 4h14l3 5-10 11L2 9Z"/><path d="M2 9h20M9 4 7 9l5 11 5-11-2-5"/>',
+      wave: '<path d="M2 16c1.5-2 3.5-2 5 0s3.5 2 5 0 3.5-2 5 0 3.5 2 5 0"/><path d="M2 11c1.5-2 3.5-2 5 0s3.5 2 5 0 3.5-2 5 0 3.5 2 5 0"/>',
       bell: '<path d="M6 10.5a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 14.5 6 10.5Z"/><path d="M9.5 18.5a2.5 2.5 0 0 0 5 0"/>',
       bellOff: '<path d="M6 10.5a6 6 0 0 1 3.3-5.3M13.8 4.9A6 6 0 0 1 18 10.5c0 4 1.5 5.5 1.5 5.5H8.5"/><path d="M9.5 18.5a2.5 2.5 0 0 0 5 0"/><path d="M3.5 3.5l17 17"/>',
       refresh: '<path d="M4 12a8 8 0 0 1 13.7-5.6L20 8.5"/><path d="M20 4v4.5h-4.5"/><path d="M20 12a8 8 0 0 1-13.7 5.6L4 15.5"/><path d="M4 20v-4.5h4.5"/>',
@@ -2575,12 +2794,40 @@
         DB.all('pets'), DB.all('logs'), DB.all('reminders'), DB.all('weights'),
         DB.all('meds'), DB.all('vaccinations'), DB.all('notes')
       ]);
-      Object.assign(S, { pets, logs, reminders, weights, meds, vaccinations, notes });
+      Object.assign(S, { pets, logs: await repairLogs(logs), reminders, weights, meds, vaccinations, notes });
       const s = localStorage.getItem('tinkl_settings');
       if (s) S.settings = Object.assign(S.settings, JSON.parse(s));
       if (!S.activePetId && pets.length) S.activePetId = pets[0].id;
       const ap = localStorage.getItem('tinkl_active');
       if (ap && pets.find(p => p.id === ap)) S.activePetId = ap;
+    }
+
+    /**
+     * One-time self-heal for logs written before a fixed bug where reminder
+     * "✅ Done" completions stored the timestamp as `at` instead of `ts`.
+     * Those records have `ts === undefined`, which turns any stat computed
+     * from timestamp arithmetic (Avg interval, streaks, trend chart) into
+     * NaN — a single bad record poisons the whole average. Runs once per
+     * load; only writes back to IndexedDB when a record actually needed it,
+     * so this is a no-op after the first pass on a given device.
+     */
+    async function repairLogs(logs) {
+      const fixes = [];
+      for (const log of logs) {
+        if (Number.isFinite(log.ts)) continue;
+        if (Number.isFinite(log.at)) {
+          log.ts = log.at;
+          delete log.at;
+        } else {
+          log.ts = Date.now();
+        }
+        fixes.push(log);
+      }
+      if (fixes.length) {
+        await Promise.all(fixes.map(log => DB.put('logs', log)));
+        console.warn(`[TINKL] Repaired ${fixes.length} log record(s) with a missing/invalid timestamp.`);
+      }
+      return logs;
     }
 
     /* ================ Cloud Sync (Durable Objects) ================ */
@@ -3558,7 +3805,11 @@
     /* ================ Stats ================ */
     let trendC, timeC, breakC;
     function renderStats() {
-      const logs = S.logs.filter(l => l.petId === S.activePetId);
+      // Defensive guard: repairLogs() heals bad records on load, but this
+      // filter means a single malformed entry (e.g. from an old cloud
+      // backup restore) can never turn the average into NaN again — it's
+      // simply excluded from the calculation instead.
+      const logs = S.logs.filter(l => l.petId === S.activePetId && Number.isFinite(l.ts));
       const days = new Set(logs.map(l => U.today(l.ts).getTime()));
       let long = 0, cur = 0; const sortedDays = [...days].sort();
       for (let i = 0; i < sortedDays.length; i++) {
@@ -3856,9 +4107,9 @@
     }
     function setTheme(t) {
       S.settings.theme = t; document.body.setAttribute('data-theme', t); saveSettings();
-      const icons = { dark: Icon('moon'), light: Icon('sun'), aurora: Icon('sparkle'), sunset: Icon('sunset'), midnight: Icon('stars') };
+      const icons = { dark: Icon('moon'), light: Icon('sun'), aurora: Icon('sparkle'), sunset: Icon('sunset'), midnight: Icon('stars'), nebula: Icon('comet'), blossom: Icon('gem'), abyss: Icon('wave') };
       document.getElementById('themeBtn').innerHTML = icons[t] || Icon('moon');
-      const metaColors = { dark: '#0b0d16', light: '#f2f4fb', aurora: '#04120f', sunset: '#170a12', midnight: '#060714' };
+      const metaColors = { dark: '#0b0d16', light: '#f2f4fb', aurora: '#04120f', sunset: '#170a12', midnight: '#060714', nebula: '#0a0618', blossom: '#1a0e14', abyss: '#020c14' };
       document.querySelector('meta[name="theme-color"]').setAttribute('content', metaColors[t] || '#0b0d16');
       renderSettings(); render(currentView());
     }
@@ -3941,7 +4192,7 @@
             U.toast('Skipped this occurrence', 'info');
           } else if (v === 'done') {
             if (r.logType && LOG_TYPES[r.logType]) {
-              await DB.put('logs', { id: U.id(), petId: r.petId || S.activePetId, type: r.logType, at: Date.now(), note: `Auto-logged from “${r.title}”` });
+              await DB.put('logs', { id: U.id(), petId: r.petId || S.activePetId, type: r.logType, ts: Date.now(), note: `Auto-logged from “${r.title}”` });
               await loadAll();
             }
             U.toast(`Logged ${label}`, 'success');
