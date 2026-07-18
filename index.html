@@ -3135,7 +3135,7 @@
         <div class="hero-pet-avatar">${active.photo ? `<img src="${active.photo}">` : Icon('paw')}</div>
         <div style="flex:1;min-width:0">
           <div class="hero-pet-name">${U.esc(active.name)}</div>
-          <div class="hero-pet-meta">${U.esc(active.breed || 'Good boy')} · ${active.weight ? active.weight + ' kg' : 'Weight not set'}</div>
+          <div class="hero-pet-meta">${U.esc(active.breed || 'Good boy')} · ${active.weight ? U.kgToLbs(active.weight).toFixed(1) + ' lbs' : 'Weight not set'}</div>
         </div>
         ${S.pets.length > 1 ? `<button class="icon-btn" id="switchPet" title="Switch pet">${Icon('refresh')}</button>` : ''}
       </div>
@@ -3365,6 +3365,7 @@
         <div style="flex:1;min-width:0">
           <div class="pet-name">${U.esc(p.name)}</div>
           <div class="pet-breed">${U.esc(p.breed || 'Mixed breed')}</div>
+          ${p.weight ? `<div class="pet-breed" style="font-size:0.85rem;color:var(--text-2)">${U.kgToLbs(p.weight).toFixed(1)} lbs</div>` : ''}
           ${p.id === S.activePetId ? '<div class="tag ok" style="margin-top:6px">Active</div>' : ''}
         </div>
       </div>
@@ -3480,16 +3481,15 @@
     <input type="file" id="photoInCamera" accept="image/*" capture="environment" hidden />
     <div class="form-row"><label>Name *</label><input id="pName" value="${pet ? U.esc(pet.name) : ''}" placeholder="Buddy" /></div>
     <div class="form-grid">
-      <div class="form-row"><label>Breed</label><input id="pBreed" list="breedList" value="${pet ? U.esc(pet.breed || '') : ''}" placeholder="Golden Retriever" />
-        <datalist id="breedList">
-          ${['Labrador Retriever','Golden Retriever','German Shepherd','French Bulldog','Poodle','Bulldog','Rottweiler','Beagle','Dachshund','German Shorthaired Pointer','Pembroke Welsh Corgi','Australian Shepherd','Yorkshire Terrier','Boxer','Great Dane','Siberian Husky','Cavalier King Charles Spaniel','Doberman Pinscher','Miniature Schnauzer','Shih Tzu','Border Collie','Boston Terrier','Pomeranian','Havanese','Chihuahua','Shetland Sheepdog','Bernese Mountain Dog','Brittany','English Springer Spaniel','Pug','Cocker Spaniel','Mixed breed','Domestic Shorthair Cat','Domestic Longhair Cat','Maine Coon','Siamese','Persian','Ragdoll','British Shorthair','Bengal','Sphynx'].map(b => `<option value="${b}">`).join('')}
-        </datalist>
-      </div>
+      <div class="form-row"><label>Breed</label><select id="pBreed">
+        <option value="">— Choose a breed or enter custom —</option>
+        ${['Labrador Retriever','Golden Retriever','German Shepherd','French Bulldog','Poodle','Bulldog','Rottweiler','Beagle','Dachshund','German Shorthaired Pointer','Pembroke Welsh Corgi','Australian Shepherd','Yorkshire Terrier','Boxer','Great Dane','Siberian Husky','Cavalier King Charles Spaniel','Doberman Pinscher','Miniature Schnauzer','Shih Tzu','Border Collie','Boston Terrier','Pomeranian','Havanese','Chihuahua','Shetland Sheepdog','Bernese Mountain Dog','Brittany','English Springer Spaniel','Pug','Cocker Spaniel','Mixed breed','Domestic Shorthair Cat','Domestic Longhair Cat','Maine Coon','Siamese','Persian','Ragdoll','British Shorthair','Bengal','Sphynx'].map(b => `<option value="${b}" ${pet?.breed === b ? 'selected' : ''}>${b}</option>`).join('')}
+      </select></div>
       <div class="form-row"><label>Gender</label><select id="pGender"><option value="">—</option><option ${pet?.gender === 'male' ? 'selected' : ''}>male</option><option ${pet?.gender === 'female' ? 'selected' : ''}>female</option></select></div>
     </div>
     <div class="form-grid">
       <div class="form-row"><label>Birthday</label><input type="date" id="pBirth" value="${pet?.birthday || ''}" /></div>
-      <div class="form-row"><label>Weight (lbs)</label><input type="number" step="0.1" id="pWeight" value="${pet?.weight || ''}" placeholder="12.5" /></div>
+      <div class="form-row" style="display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end"><label style="grid-column:1/-1">Weight</label><input type="number" step="0.1" id="pWeight" placeholder="120" /><select id="pWeightUnit"><option value="lbs" selected>lbs</option><option value="kg">kg</option></select></div>
     </div>
     <div class="form-row"><label>Pet parent name</label><input id="pParent" value="${pet ? U.esc(pet.parent || '') : ''}" placeholder="Your name" /></div>
     <div class="form-row"><label>Microchip #</label><input id="pChip" value="${pet ? U.esc(pet.chip || '') : ''}" placeholder="Optional" /></div>
@@ -3529,12 +3529,18 @@
           b._save = async () => {
             const name = b.querySelector('#pName').value.trim();
             if (!name) { U.toast('Name is required', 'error'); return false; }
+            const weightVal = b.querySelector('#pWeight').value;
+            const weightUnit = b.querySelector('#pWeightUnit').value;
+            // Store everything in kg internally (single source of truth),
+            // but remember the unit the user preferred so we can convert it back on edit
+            const weightKg = weightVal ? U.toKg(U.safeNum(weightVal), weightUnit) : '';
             const data = {
               id: pet?.id || U.id(), name,
               breed: b.querySelector('#pBreed').value.trim(),
               gender: b.querySelector('#pGender').value,
               birthday: b.querySelector('#pBirth').value,
-              weight: b.querySelector('#pWeight').value ? U.safeNum(b.querySelector('#pWeight').value) : '',
+              weight: weightKg,
+              weightUnit: weightUnit,
               parent: b.querySelector('#pParent').value.trim(),
               chip: b.querySelector('#pChip').value.trim(),
               notes: b.querySelector('#pNotes').value.trim(),
@@ -3547,6 +3553,14 @@
             renderPets(); renderDashboard();
             return true;
           };
+          // When editing: convert stored kg back to the unit they prefer
+          if (pet?.weight && pet?.weight !== '') {
+            const unit = pet?.weightUnit || 'lbs';
+            b.querySelector('#pWeightUnit').value = unit;
+            const kgVal = U.safeNum(pet.weight);
+            const displayVal = unit === 'lbs' ? U.kgToLbs(kgVal) : kgVal;
+            b.querySelector('#pWeight').value = displayVal.toFixed(1);
+          }
         },
         onAction: async (v, close, b) => {
           if (!v) return close();
